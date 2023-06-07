@@ -4,18 +4,16 @@
   <title>LA PAGINA DE IMPOSIBLEALX</title>
   <style>
     body {
-      background-color: black; /* Fondo negro */
-      background-size: certain;
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-attachment: fixed;
-      transition: background-image 1s ease-in-out;
+      margin: 0;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
     }
   </style>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://pixijs.download/release/pixi.min.js"></script>
   <script>
-    $(document).ready(function() {
-      // Array con las URL de las imágenes de fondo
+    document.addEventListener("DOMContentLoaded", function() {
       var backgrounds = [
         "images/fondo.png",
         "images/fondo1.png",
@@ -31,26 +29,54 @@
         "images/fondo11.png"
       ];
 
-// Función para cambiar la imagen de fondo aleatoriamente con transición
-function changeBackground() {
-        var randomIndex = Math.floor(Math.random() * backgrounds.length);
-        var randomBackground = backgrounds[randomIndex];
+      var app = new PIXI.Application({
+        width: window.innerWidth,
+        height: window.innerHeight,
+        transparent: true
+      });
 
-        $.ajax({
-          url: randomBackground,
-          type: "GET",
-          dataType: "text",
-          success: function(response) {
-            $("body").css("background-image", "url('" + randomBackground + "')");
-          },
-          error: function(xhr, status, error) {
-            console.log("Error al cargar la imagen de fondo: " + error);
-          }
-        });
+      document.body.appendChild(app.view);
+
+      var loader = new PIXI.Loader();
+      backgrounds.forEach(function(background) {
+        loader.add(background);
+      });
+
+      loader.load(function(_, resources) {
+        var currentBackgroundIndex = 0;
+        var currentBackground = new PIXI.Sprite(resources[backgrounds[currentBackgroundIndex]].texture);
+        app.stage.addChild(currentBackground);
+
+        function changeBackground() {
+          currentBackgroundIndex = (currentBackgroundIndex + 1) % backgrounds.length;
+          var nextBackground = new PIXI.Sprite(resources[backgrounds[currentBackgroundIndex]].texture);
+          app.stage.addChild(nextBackground);
+
+          var transitionFilter = new PIXI.filters.PixelateFilter();
+          transitionFilter.size.x = app.renderer.width / 20;
+          transitionFilter.size.y = app.renderer.height / 20;
+          nextBackground.filters = [transitionFilter];
+
+          var tween = new TWEEN.Tween(transitionFilter.size)
+            .to({ x: 0, y: 0 }, 1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .onComplete(function() {
+              app.stage.removeChild(currentBackground);
+              currentBackground = nextBackground;
+            })
+            .start();
+        }
+
+        setInterval(changeBackground, 5000);
+      });
+
+      function animate(time) {
+        requestAnimationFrame(animate);
+        TWEEN.update(time);
+        app.renderer.render(app.stage);
       }
 
-      // Cambiar la imagen de fondo cada 2 segundos
-      setInterval(changeBackground, 2000);
+      animate();
     });
   </script>
 </head>
