@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.3.3/pixi.min.js"></script>
   <title>LA PAGINA DE IMPOSIBLEALX</title>
   <style>
     body {
@@ -11,8 +12,7 @@
       display: block;
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/pixi.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.4.0/Tween.min.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       var backgrounds = [
@@ -38,7 +38,7 @@
 
       document.body.appendChild(app.view);
 
-      var loader = new PIXI.Loader();
+      const loader = new PIXI.Loader();
       backgrounds.forEach(function(background) {
         loader.add(background);
       });
@@ -71,9 +71,9 @@
         setInterval(changeBackground, 5000);
       });
 
-      function animate(time) {
+      function animate() {
         requestAnimationFrame(animate);
-        TWEEN.update(time);
+        TWEEN.update();
         app.renderer.render(app.stage);
       }
 
@@ -85,3 +85,5 @@
   <!-- Contenido de tu página aquí -->
 </body>
 </html>
+```
+
