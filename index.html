@@ -43,12 +43,11 @@
 
       document.body.appendChild(app.view);
 
-      const loader = new PIXI.Loader();
       backgrounds.forEach(function(background) {
-        loader.add(background);
+        PIXI.Loader.shared.add(background);
       });
 
-      loader.load(function(_, resources) {
+      PIXI.Loader.shared.load(function(_, resources) {
         var currentBackgroundIndex = 0;
         var currentBackground = new PIXI.Sprite(resources[backgrounds[currentBackgroundIndex]].texture);
         app.stage.addChild(currentBackground);
@@ -87,7 +86,4 @@
   </script>
 </head>
 <body>
-  <!-- Contenido de tu página aquí -->
-</body>
-</html>
-
+ 
