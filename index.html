@@ -44,7 +44,7 @@
       document.body.appendChild(app.view);
 
       backgrounds.forEach(function(background) {
-        new PIXI.AssetLoader(background);
+        new PIXI.Loader(background);
       });
 
       PIXI.Loader.shared.load(function(_, resources) {
