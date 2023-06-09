@@ -43,11 +43,12 @@
 
       document.body.appendChild(app.view);
 
+      var loader = new PIXI.Loader();
       backgrounds.forEach(function(background) {
-        new PIXI.Loader(background);
+        loader.add(background);
       });
 
-      PIXI.Loader.shared.load(function(_, resources) {
+      loader.load(function(_, resources) {
         var currentBackgroundIndex = 0;
         var currentBackground = new PIXI.Sprite(resources[backgrounds[currentBackgroundIndex]].texture);
         app.stage.addChild(currentBackground);
@@ -63,7 +64,7 @@
           nextBackground.filters = [transitionFilter];
 
           var tween = new TWEEN.Tween(transitionFilter.size)
-            .to({ x: 0, y: 0 }, 1000)
+            .to({ x: 0, y: 0 }, 2000)
             .easing(TWEEN.Easing.Quadratic.Out)
             .onComplete(function() {
               app.stage.removeChild(currentBackground);
