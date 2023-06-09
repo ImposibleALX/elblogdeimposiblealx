@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://pixijs.download/v7.2.4/pixi.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pixi.js@7.2.4/dist/pixi.min.js"></script>
   <title>LA PAGINA DE IMPOSIBLEALX</title>
   <style>
     body {
@@ -43,11 +43,12 @@
 
       document.body.appendChild(app.view);
 
-      imageLoader = PIXI.loader;
-      imageLoader.add('background', loadUrl);
+      var imageLoader = new PIXI.Loader();
+      backgrounds.forEach(function(background) {
+        imageLoader.add(background);
       });
 
-      PIXI.Loader.shared.load(function(_, resources) {
+      imageLoader.load(function(_, resources) {
         var currentBackgroundIndex = 0;
         var currentBackground = new PIXI.Sprite(resources[backgrounds[currentBackgroundIndex]].texture);
         app.stage.addChild(currentBackground);
@@ -82,8 +83,10 @@
       }
 
       animate();
-    
+    });
   </script>
 </head>
 <body>
- 
+  <!-- Contenido de tu página aquí -->
+</body>
+</html>
