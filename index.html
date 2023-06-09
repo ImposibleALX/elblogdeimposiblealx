@@ -43,7 +43,7 @@
 
       document.body.appendChild(app.view);
 
-      var imageLoader = new PIXI.Loader();
+      var imageLoader = new PIXI.Loader.shared();
       backgrounds.forEach(function(background) {
         imageLoader.add(background);
       });
