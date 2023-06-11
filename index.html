@@ -77,21 +77,40 @@
 
         setInterval(changeBackground, 3500);
       });
-      
-      var sound = new Howl({
-        src: ['virginia.mp3'],
-        loop: true
+
+      var sound;
+
+      function initializeAudio() {
+        sound = new Howl({
+          src: ['virginia.mp3'],
+          loop: true
+        });
+      }
+
+      function playAudio() {
+        if (sound) {
+          sound.play();
+        }
+      }
+
+      document.addEventListener('click', function() {
+        if (!sound) {
+          initializeAudio();
+        }
+        playAudio();
       });
 
-      sound.play();
+      function animate() {
+        requestAnimationFrame(animate);
+        TWEEN.update();
+        app.renderer.render(app.stage);
+      }
 
       animate();
     });
-  
   </script>
 </head>
 <body>
   <!-- Contenido de tu página aquí -->
-  <audio src="virginia.mp3" loop autoplay></audio>
 </body>
 </html>
