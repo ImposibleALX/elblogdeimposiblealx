@@ -77,6 +77,12 @@
 
         setInterval(changeBackground, 3500);
       });
+      
+      PIXI.sound.init();
+
+      var audio = PIXI.sound.Sound.from('tu-archivo.mp3');
+      audio.loop = true;
+      audio.play();
 
       function animate() {
         requestAnimationFrame(animate);
