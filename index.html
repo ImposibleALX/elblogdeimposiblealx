@@ -58,13 +58,14 @@
           var nextBackground = new PIXI.Sprite(resources[backgrounds[currentBackgroundIndex]].texture);
           app.stage.addChild(nextBackground);
 
-          var transitionFilter = new PIXI.filters.PixelateFilter();
-          transitionFilter.size.x = app.renderer.width / 20;
-          transitionFilter.size.y = app.renderer.height / 20;
-          nextBackground.filters = [transitionFilter];
+          var scaleX = app.renderer.width / nextBackground.width;
+          var scaleY = app.renderer.height / nextBackground.height;
+          var scale = Math.max(scaleX, scaleY);
 
-          var tween = new TWEEN.Tween(transitionFilter.size)
-            .to({ x: 0, y: 0 }, 2000)
+          nextBackground.scale.set(scale);
+
+          var tween = new TWEEN.Tween(nextBackground.scale)
+            .to({ x: 1, y: 1 }, 2000)
             .easing(TWEEN.Easing.Quadratic.Out)
             .onComplete(function() {
               app.stage.removeChild(currentBackground);
@@ -73,7 +74,7 @@
             .start();
         }
 
-        setInterval(changeBackground, 1500);
+        setInterval(changeBackground, 3500);
       });
 
       function animate() {
