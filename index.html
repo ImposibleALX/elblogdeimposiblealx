@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.3.3/pixi.min.js"></script>
-  <script src="https://unpkg.com/@pixi/sound/dist/pixi-sound.js"></script>
   <title>LA PAGINA DE IMPOSIBLEALX</title>
   <style>
     body {
@@ -78,20 +78,16 @@
         setInterval(changeBackground, 3500);
       });
       
-      PIXI.sound.init();
+      var sound = new Howl({
+        src: ['tu-archivo.mp3'],
+        loop: true
+      });
 
-      var audio = PIXI.sound.Sound.from('virginia.mp3');
-      audio.loop = true;
-      audio.play();
-
-      function animate() {
-        requestAnimationFrame(animate);
-        TWEEN.update();
-        app.renderer.render(app.stage);
-      }
+      sound.play();
 
       animate();
     });
+  
   </script>
 </head>
 <body>
