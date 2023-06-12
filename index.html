@@ -54,6 +54,10 @@
         var currentBackground = new PIXI.Sprite(resources[backgrounds[currentBackgroundIndex]].texture);
         app.stage.addChild(currentBackground);
 
+        var pixelateFilter = new PIXI.filters.PixelateFilter();
+        pixelateFilter.size = new PIXI.Point(1, 1);
+        app.stage.filters = [pixelateFilter];
+
         function changeBackground() {
           currentBackgroundIndex = (currentBackgroundIndex + 1) % backgrounds.length;
           var nextBackground = new PIXI.Sprite(resources[backgrounds[currentBackgroundIndex]].texture);
@@ -65,19 +69,24 @@
 
           nextBackground.scale.set(scale);
 
-          var tween = new TWEEN.Tween(nextBackground.scale)
-            .to({ x: 1, y: 1 }, 2000)
+          var tween = new TWEEN.Tween(pixelateFilter.size)
+            .to({ x: 100, y: 100 }, 1500)
             .easing(TWEEN.Easing.Quadratic.Out)
+            .onUpdate(function() {
+              pixelateFilter.size.x = Math.round(pixelateFilter.size.x);
+              pixelateFilter.size.y = Math.round(pixelateFilter.size.y);
+            })
             .onComplete(function() {
               app.stage.removeChild(currentBackground);
               currentBackground = nextBackground;
+              pixelateFilter.size = new PIXI.Point(1, 1);
             })
             .start();
         }
 
         setInterval(changeBackground, 3500);
       });
-
+      
       var sound;
 
       function initializeAudio() {
