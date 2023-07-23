@@ -1,140 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.5.4/browser/pixi.js"></script>
-  <title>LA PAGINA DE IMPOSIBLEALX</title>
+  <title>Videos Deslizantes</title>
   <style>
     body {
       margin: 0;
+      padding: 0;
       overflow: hidden;
-      background-color: black; /* Fondo negro */
-      background-size: certain; /* Tamaño del fondo */
-      background-repeat: no-repeat; /* Repetición del fondo */
-      background-position: center center; /* Posición del fondo */
-      background-attachment: fixed; /* Fondo fijo */
     }
-    canvas {
-      display: block;
+    #videoContainer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.6;
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.4.0/Tween.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      var backgrounds = [
-        "images/fondo.png",
-        "images/fondo1.png",
-        "images/fondo2.png",
-        "images/fondo3.png",
-        "images/fondo4.png",
-        "images/fondo5.png",
-        "images/fondo6.png",
-        "images/fondo7.png",
-        "images/fondo8.png",
-        "images/fondo9.png",
-        "images/fondo10.png",
-        "images/fondo11.png"
-      ];
-
-      var app = new PIXI.Application({
-        width: window.innerWidth,
-        height: window.innerHeight,
-        transparent: true
-      });
-
-      document.body.appendChild(app.view);
-
-      var loader = new PIXI.Loader();
-      backgrounds.forEach(function(background) {
-        loader.add(background);
-      });
-
-      loader.load(function(_, resources) {
-        var currentBackgroundIndex = 0;
-        var currentBackground = new PIXI.Sprite(resources[backgrounds[currentBackgroundIndex]].texture);
-        app.stage.addChild(currentBackground);
-
-        function transitionBackground() {
-          var nextBackgroundIndex = (currentBackgroundIndex + 1) % backgrounds.length;
-          var nextBackground = new PIXI.Sprite(resources[backgrounds[nextBackgroundIndex]].texture);
-          app.stage.addChild(nextBackground);
-
-          var transitionSprite = new PIXI.Sprite(currentBackground.texture);
-          transitionSprite.width = app.renderer.width;
-          transitionSprite.height = app.renderer.height;
-          app.stage.addChild(transitionSprite);
-
-          var transitionFilter = new PIXI.filters.PixelateFilter();
-          transitionSprite.filters = [transitionFilter];
-
-          var pixelSize = 100;
-          var pixelSizeTarget = 1;
-          var transitionDuration = 1500;
-          var transitionStartTime = Date.now();
-
-          var transitionAnimation = new TWEEN.Tween({ pixelSize: pixelSize })
-            .to({ pixelSize: pixelSizeTarget }, transitionDuration)
-            .easing(TWEEN.Easing.Quadratic.InOut)
-            .onUpdate(function() {
-              transitionFilter.size.x = this.pixelSize;
-              transitionFilter.size.y = this.pixelSize;
-            })
-            .onComplete(function() {
-              app.stage.removeChild(currentBackground);
-              app.stage.removeChild(transitionSprite);
-              currentBackground = nextBackground;
-              currentBackgroundIndex = nextBackgroundIndex;
-            })
-            .start();
-
-          var animateTransition = function() {
-            var elapsed = Date.now() - transitionStartTime;
-            if (elapsed < transitionDuration) {
-              requestAnimationFrame(animateTransition);
-              TWEEN.update();
-              app.renderer.render(app.stage);
-            }
-          };
-
-          animateTransition();
-        }
-
-        setInterval(transitionBackground, 3500);
-      });
-      
-      var sound;
-
-      function initializeAudio() {
-        sound = new Howl({
-          src: ['virginia.mp3'],
-          loop: true
-        });
-      }
-
-      function playAudio() {
-        if (sound) {
-          sound.play();
-        }
-      }
-
-      document.addEventListener('click', function() {
-        if (!sound) {
-          initializeAudio();
-        }
-        playAudio();
-      });
-
-      function animate() {
-        requestAnimationFrame(animate);
-        TWEEN.update();
-        app.renderer.render(app.stage);
-      }
-
-      animate();
-    });
-  </script>
 </head>
 <body>
-  <!-- Contenido de tu página aquí -->
+  <div id="videoContainer">
+    <video id="mainVideo" autoplay muted loop>
+      <source src="ruta_del_video.mp4" type="video/mp4">
+    </video>
+  </div>
+  <script>
+    const videoContainer = document.getElementById('videoContainer');
+    const mainVideo = document.getElementById('mainVideo');
+
+    function handleScroll() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const videoHeight = videoContainer.offsetHeight;
+      const videoTop = videoContainer.getBoundingClientRect().top + scrollTop;
+      const videoBottom = videoTop + videoHeight;
+
+      if (scrollTop >= videoBottom || scrollTop + window.innerHeight <= videoTop) {
+        // El video está completamente fuera de la vista, reiniciamos el video
+        mainVideo.currentTime = 0;
+        mainVideo.play();
+      }
+    }
+
+    document.addEventListener('scroll', handleScroll);
+  </script>
 </body>
 </html>
