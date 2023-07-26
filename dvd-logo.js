@@ -4,8 +4,8 @@ const ctx = canvas.getContext('2d');
 const logo = new Image();
 logo.src = 'paralelo.png'; // Replace 'paralelo.png' with the actual path to your PNG image
 
-const logoWidth = 100; // Adjust this value as needed
-const logoHeight = 60; // Adjust this value as needed
+const logoWidth = 160; // Adjust this value as needed
+const logoHeight = 120; // Adjust this value as needed
 
 const canvasWidth = window.innerWidth;
 const canvasHeight = window.innerHeight;
