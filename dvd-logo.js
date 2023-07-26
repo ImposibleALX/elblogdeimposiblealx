@@ -4,6 +4,9 @@ const ctx = canvas.getContext('2d');
 const logo = new Image();
 logo.src = 'paralelo.png'; // Replace 'path_to_dvd_logo.png' with the actual path to your PNG image
 
+const maxCanvasWidth = 20; // Adjust this value as needed
+const maxCanvasHeight = 20; // Adjust this value as needed
+
 let logoWidth;
 let logoHeight;
 let x;
