@@ -2,10 +2,10 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 const logo = new Image();
-logo.src = 'paralelo.png'; // Replace 'path_to_dvd_logo.png' with the actual path to your PNG image
+logo.src = 'paralelo.png'; // Replace 'paralelo.png' with the actual path to your PNG image
 
-const maxCanvasWidth = 20; // Adjust this value as needed
-const maxCanvasHeight = 20; // Adjust this value as needed
+const maxCanvasWidth = 10; // Adjust this value as needed
+const maxCanvasHeight = 100; // Adjust this value as needed
 
 let logoWidth;
 let logoHeight;
@@ -35,12 +35,20 @@ function animate() {
 }
 
 logo.onload = function () {
-  // Set canvas size to match the image size
-  canvas.width = logo.width;
-  canvas.height = logo.height;
+  const aspectRatio = logo.width / logo.height;
 
-  logoWidth = logo.width;
-  logoHeight = logo.height;
+  // Set canvas size to match the image size, considering the maximum canvas size
+  if (aspectRatio > 1) {
+    logoWidth = Math.min(logo.width, maxCanvasWidth);
+    logoHeight = logoWidth / aspectRatio;
+  } else {
+    logoHeight = Math.min(logo.height, maxCanvasHeight);
+    logoWidth = logoHeight * aspectRatio;
+  }
+
+  canvas.width = logoWidth;
+  canvas.height = logoHeight;
+
   x = Math.random() * (canvas.width - logoWidth);
   y = Math.random() * (canvas.height - logoHeight);
 
