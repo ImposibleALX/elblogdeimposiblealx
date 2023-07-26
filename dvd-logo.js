@@ -32,5 +32,16 @@ function animate() {
   }
 }
 
-logo.onload = animate;
+logo.onload = function () {
+  // Set canvas size to match the image size
+  canvas.width = logo.width;
+  canvas.height = logo.height;
+
+  logoWidth = logo.width;
+  logoHeight = logo.height;
+  x = Math.random() * (canvas.width - logoWidth);
+  y = Math.random() * (canvas.height - logoHeight);
+
+  animate();
+};
 
