@@ -2,7 +2,7 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 const logo = new Image();
-logo.src = 'paralelo'; // Replace 'path_to_dvd_logo.png' with the actual path to your PNG image
+logo.src = 'paralelo.png'; // Replace 'path_to_dvd_logo.png' with the actual path to your PNG image
 
 const logoWidth = 100; // Width of the logo (adjust as needed)
 const logoHeight = 60; // Height of the logo (adjust as needed)
