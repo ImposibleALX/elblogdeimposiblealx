@@ -4,13 +4,13 @@ const ctx = canvas.getContext('2d');
 const logo = new Image();
 logo.src = 'paralelo.png'; // Replace 'path_to_dvd_logo.png' with the actual path to your PNG image
 
-const logoWidth = 100; // Width of the logo (adjust as needed)
-const logoHeight = 60; // Height of the logo (adjust as needed)
+const logoWidth = 20; // Width of the logo (adjust as needed)
+const logoHeight = 20; // Height of the logo (adjust as needed)
 
 let x = Math.random() * (canvas.width - logoWidth);
 let y = Math.random() * (canvas.height - logoHeight);
-let dx = 2; // Horizontal speed
-let dy = 2; // Vertical speed
+let dx = 1; // Horizontal speed
+let dy = 1; // Vertical speed
 
 function animate() {
   requestAnimationFrame(animate);
