@@ -5,14 +5,14 @@ const logo = new Image();
 logo.src = 'paralelo.png'; // Replace 'paralelo.png' with the actual path to your PNG image
 
 const maxCanvasWidth = 10; // Adjust this value as needed
-const maxCanvasHeight = 100; // Adjust this value as needed
+const maxCanvasHeight = 10; // Adjust this value as needed
 
 let logoWidth;
 let logoHeight;
 let x;
 let y;
-let dx = 2; // Horizontal speed
-let dy = 2; // Vertical speed
+let dx = 1; // Horizontal speed
+let dy = 1; // Vertical speed
 
 function animate() {
   requestAnimationFrame(animate);
