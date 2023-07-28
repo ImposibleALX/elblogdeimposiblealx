@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +8,15 @@
     body, html {
       height: 100%;
       margin: 0;
-      overflow: hidden;
       background-color: black;
     }
     canvas {
       display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: 50%; /* Adjust the height as needed */
+      height: 100%;
     }
     pre {
       font-family: monospace;
@@ -28,48 +30,66 @@
       left: 50%;
       transform: translate(-50%, -50%);
     }
+    #progress-bar {
+      font-family: monospace;
+      color: white;
+      border: none;
+      padding: 0;
+      margin: 0;
+      text-align: center;
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: transparent;
+    }
   </style>
 </head>
 <body>
   <canvas id="canvas"></canvas>
   <pre id="progress-bar"></pre>
   <script>
-    // Code for DVD Logo Animation
+    // Código para la Animación del Logotipo de DVD
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     const logo = new Image();
-    logo.src = 'paralelo.png'; // Replace 'dvd-logo.png' with the path to your DVD logo image
+    logo.src = 'paralelo.png'; // Reemplaza 'paralelo.png' con la ruta de tu imagen del logotipo de DVD
+    
+    const logoWidth = 60; // Ajusta este valor según sea necesario
+    const logoHeight = 40; // Ajusta este valor según sea necesario
 
-    let x = 0;
-    let y = 0;
-    let dx = 5;
-    let dy = 5;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let x = canvas.width / 2 - logoWidth / 2;
+    let y = canvas.height / 2 - logoHeight / 2;
+    let dx = 2;
+    let dy = 2;
 
     logo.onload = function() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight / 2; // Half of the window height
       animate();
     };
 
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(logo, x, y);
+      ctx.drawImage(logo, x, y, logoWidth, logoHeight);
 
       x += dx;
       y += dy;
 
-      if (x + logo.width >= canvas.width || x < 0) {
+      if (x + logoWidth >= canvas.width || x < 0) {
         dx = -dx;
       }
 
-      if (y + logo.height >= canvas.height || y < 0) {
+      if (y + logoHeight >= canvas.height || y < 0) {
         dy = -dy;
       }
 
       requestAnimationFrame(animate);
     }
-
-    // Code for Progress Bar Animation
+  </script>
+  <script>
+    // Código para la Animación de la Barra de Progreso
     const BAR_LEN = 24;
     const elements = ['-', '\\', '|', '/'];
     let i = 0;
