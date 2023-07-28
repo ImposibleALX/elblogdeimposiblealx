@@ -14,12 +14,75 @@
     canvas {
       display: block;
       width: 100%;
-      height: 100%;
+      height: 50%; /* Adjust the height as needed */
+    }
+    pre {
+      font-family: monospace;
+      color: white;
+      border: none;
+      padding: 0;
+      margin: 0;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
   </style>
 </head>
 <body>
   <canvas id="canvas"></canvas>
-  <script src="dvd-logo.js"></script>
+  <pre id="progress-bar"></pre>
+  <script>
+    // Code for DVD Logo Animation
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const logo = new Image();
+    logo.src = 'dvd-logo.png'; // Replace 'dvd-logo.png' with the path to your DVD logo image
+
+    let x = 0;
+    let y = 0;
+    let dx = 5;
+    let dy = 5;
+
+    logo.onload = function() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight / 2; // Half of the window height
+      animate();
+    };
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(logo, x, y);
+
+      x += dx;
+      y += dy;
+
+      if (x + logo.width >= canvas.width || x < 0) {
+        dx = -dx;
+      }
+
+      if (y + logo.height >= canvas.height || y < 0) {
+        dy = -dy;
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    // Code for Progress Bar Animation
+    const BAR_LEN = 24;
+    const elements = ['-', '\\', '|', '/'];
+    let i = 0;
+
+    function updateProgressBar() {
+      const frame = i % elements.length;
+      const progressBar = '[' + elements[frame].repeat(i).padEnd(BAR_LEN, '=') + ']';
+      document.getElementById('progress-bar').innerText = progressBar;
+      i = (i + 1) % (BAR_LEN + 1);
+      setTimeout(updateProgressBar, 200);
+    }
+
+    updateProgressBar();
+  </script>
 </body>
 </html>
